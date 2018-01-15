@@ -371,8 +371,20 @@ export default {
           vals: this.formatToArray(filter.vals),
           min: filter.min
         })
-        if (filter.vals && (filter.vals.length >= filter.min)) {
+        let typeVal = typeof filter.vals
+        if ((typeVal === 'string' && (filter.vals.length >= filter.min)) || filter.min === undefined) {
           customFilters.push(filterCopy)
+        } else if (typeVal === 'object') {
+          let valMin = filter.vals.map(val => {
+            if (val.length >= filter.min || filter.min === undefined) {
+              return val.length
+            } else {
+              return false
+            }
+          })
+          if (valMin[0]) {
+            customFilters.push(filterCopy)
+          }
         }
       })
       return customFilters
