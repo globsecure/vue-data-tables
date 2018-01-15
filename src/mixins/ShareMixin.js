@@ -371,7 +371,7 @@ export default {
           vals: this.formatToArray(filter.vals),
           min: filter.min
         })
-        if (filter.vals.length >= filter.min) {
+        if (filter.vals && (filter.vals.length >= filter.min)) {
           customFilters.push(filterCopy)
         }
       })
