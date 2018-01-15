@@ -255,6 +255,7 @@ export default {
             type: this._server ? 'search' : undefined,
             props: this.formatProps(this.innerSearchDef.props),
             vals: this.formatToArray(this.innerSearchKey),
+            min: this.innerSearchDef.min,
             filterFunction: this._server ? undefined : this.innerSearchDef.filterFunction
           })
         }
@@ -263,6 +264,7 @@ export default {
             type: this._server ? 'checkbox' : undefined,
             props: this.formatProps(this.innerCheckboxFilterDef.props),
             vals: this.checkBoxValues,
+            min: this.innerSearchDef.min,
             filterFunction: this._server ? undefined : this.innerCheckboxFilterDef.filterFunction
           })
         }
@@ -348,7 +350,7 @@ export default {
         show: true,
         props: undefined,
         filterFunction: undefined,
-        debounceTime: 200,
+        debounceTime: 700,
         colProps: {
           span: 5
         },
@@ -366,9 +368,12 @@ export default {
       customFilterArray.forEach(filter => {
         let filterCopy = Object.assign({}, filter, {
           props: this.formatProps(filter.props),
-          vals: this.formatToArray(filter.vals)
+          vals: this.formatToArray(filter.vals),
+          min: filter.min
         })
-        customFilters.push(filterCopy)
+        if (filter.vals.length >= filter.min) {
+          customFilters.push(filterCopy)
+        }
       })
       return customFilters
     },

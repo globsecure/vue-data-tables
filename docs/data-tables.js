@@ -812,13 +812,15 @@ function applyToTag (styleElement, obj) {
   computed: {
     filters: function filters() {
       var filters = this.formatToArray(this.innerCustomFilters);
-
+			console.log(this.filters)
       if (this.showActionBar) {
         if (this.searchShow) {
+					console.log(this.innerSearchDef)
           filters.push({
             type: this._server ? 'search' : undefined,
             props: this.formatProps(this.innerSearchDef.props),
             vals: this.formatToArray(this.innerSearchKey),
+						min: his.innerCheckboxFilterDef.min,
             filterFunction: this._server ? undefined : this.innerSearchDef.filterFunction
           });
         }
@@ -827,6 +829,7 @@ function applyToTag (styleElement, obj) {
             type: this._server ? 'checkbox' : undefined,
             props: this.formatProps(this.innerCheckboxFilterDef.props),
             vals: this.checkBoxValues,
+						min: his.innerCheckboxFilterDef.min,
             filterFunction: this._server ? undefined : this.innerCheckboxFilterDef.filterFunction
           });
         }
@@ -936,7 +939,9 @@ function applyToTag (styleElement, obj) {
       customFilterArray.forEach(function (filter) {
         var filterCopy = __WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_object_assign___default()({}, filter, {
           props: _this3.formatProps(filter.props),
-          vals: _this3.formatToArray(filter.vals)
+          vals: _this3.formatToArray(filter.vals),
+					min: _this3.formatToArray(filter.min),
+					placeholder: _this3.formatToArray(filter.placeholder)
         });
         customFilters.push(filterCopy);
       });
@@ -1103,7 +1108,7 @@ $export.P = 8;   // proto
 $export.B = 16;  // bind
 $export.W = 32;  // wrap
 $export.U = 64;  // safe
-$export.R = 128; // real proto method for `library` 
+$export.R = 128; // real proto method for `library`
 module.exports = $export;
 
 /***/ }),
@@ -1549,7 +1554,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var info = __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({
         type: type
       }, this.queryInfo);
-
+			
       this.$emit('query-change', info);
 
       this.loadData && this.innerLoadData(info);

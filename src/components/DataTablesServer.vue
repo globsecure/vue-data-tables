@@ -31,6 +31,7 @@
     },
     data() {
       return {
+        timeout: 0,
         innerLoading: false
       }
     },
@@ -58,13 +59,14 @@
     },
     methods: {
       queryChange(type) {
-        let info = {
-          type,
-          ...this.queryInfo
-        }
-        this.$emit('query-change', info)
-
-        this.loadData && this.innerLoadData(info)
+        clearTimeout(this.timeout)
+        this.timeout = setTimeout(() => {
+          let info = {
+            type,
+            ...this.queryInfo
+          }
+          this.loadData && this.innerLoadData(info)
+        }, this.innerSearchDef.debounceTime)
       },
       handleSizeChange(size) {
         this.innerPageSize = size
@@ -89,16 +91,20 @@
         }
       },
       innerLoadData(info) {
-        this.innerLoading = true
-        this.loadData && this.loadData(info)
-          .then(data => {
-            this.innerLoading = false
-            this.$emit('load-data-success', data, info)
-          })
-          .catch(error => {
-            this.innerLoading = false
-            this.$emit('load-data-fail', error, info)
-          })
+        if ((info.filters.length >= 1 && info.type === 'customFilterChange') || info.type === 'init') {
+          this.innerLoading = true
+          this.loadData && this.loadData(info)
+            .then(data => {
+              this.innerLoading = false
+              this.$emit('load-data-success', data, info)
+            })
+            .catch(error => {
+              this.innerLoading = false
+              this.$emit('load-data-fail', error, info)
+            })
+        } else {
+          console.info('innerLoadData', 'Call not executed, parameters are not enough.')
+        }
       }
     },
     watch: {
