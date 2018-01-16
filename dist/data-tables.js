@@ -1300,7 +1300,6 @@ function applyToTag (styleElement, obj) {
   computed: {
     filters: function filters() {
       var filters = this.formatToArray(this.innerCustomFilters);
-
       if (this.showActionBar) {
         if (this.searchShow) {
           filters.push({
@@ -1321,7 +1320,6 @@ function applyToTag (styleElement, obj) {
           });
         }
       }
-
       return filters;
     },
     innerActionsDef: function innerActionsDef() {
@@ -1424,9 +1422,13 @@ function applyToTag (styleElement, obj) {
       var customFilterArray = this.formatToArray(this.customFilters);
       var customFilters = [];
       customFilterArray.forEach(function (filter) {
+        var vals = _this3.formatToArray(filter.vals);
+        if (filter.transform) {
+          vals = filter.transform(vals);
+        }
         var filterCopy = __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_object_assign___default()({}, filter, {
           props: _this3.formatProps(filter.props),
-          vals: _this3.formatToArray(filter.vals),
+          vals: vals,
           min: filter.min
         });
         var typeVal = __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof___default()(filter.vals);
