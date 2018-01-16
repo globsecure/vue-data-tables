@@ -248,7 +248,6 @@ export default {
   computed: {
     filters() {
       let filters = this.formatToArray(this.innerCustomFilters)
-
       if (this.showActionBar) {
         if (this.searchShow) {
           filters.push({
@@ -269,7 +268,6 @@ export default {
           })
         }
       }
-
       return filters
     },
     innerActionsDef() {
@@ -366,9 +364,13 @@ export default {
       let customFilterArray = this.formatToArray(this.customFilters)
       let customFilters = []
       customFilterArray.forEach(filter => {
+        let vals = this.formatToArray(filter.vals)
+        if (filter.transform) {
+          vals = filter.transform(vals)
+        }
         let filterCopy = Object.assign({}, filter, {
           props: this.formatProps(filter.props),
-          vals: this.formatToArray(filter.vals),
+          vals: vals,
           min: filter.min
         })
         let typeVal = typeof filter.vals

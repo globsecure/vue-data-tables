@@ -117,7 +117,10 @@
           type: 'multi',
           props: ['flow_no', 'flow'],
           vals: '',
-          min: 3
+          min: 3,
+          transform: (val) => {
+            return val[0] && val[0].trim().toUpperCase()
+          }
         }, {
           type: 'test',
           vals: [],
