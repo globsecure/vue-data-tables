@@ -63,6 +63,9 @@
     },
     methods: {
       resetFilter() {
+        this.queryInfo.filters.map(filter => {
+          filter.vals = ''
+        })
         let info = {
           type: 'customFilterChange',
           ...this.queryInfo
@@ -102,7 +105,8 @@
         }
       },
       innerLoadData(info) {
-        if ((info.filters.length >= 1 && info.type === 'customFilterChange') || info.type === 'init') {
+        let autoChange = (info.type === 'pageChange' || info.type === 'init' || info.type === 'sortChange' || info.type === 'checkBoxChange' || info.type === 'sizeChange')
+        if ((info.filters.length >= 1 && info.type === 'customFilterChange') || autoChange) {
           this.innerLoading = true
           this.loadData && this.loadData(info)
             .then(data => {
