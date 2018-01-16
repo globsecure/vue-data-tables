@@ -2323,6 +2323,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   methods: {
     resetFilter: function resetFilter() {
+      this.queryInfo.filters.map(function (filter) {
+        filter.vals = '';
+      });
       var info = __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({
         type: 'customFilterChange'
       }, this.queryInfo);
@@ -2364,7 +2367,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     innerLoadData: function innerLoadData(info) {
       var _this3 = this;
 
-      if (info.filters.length >= 1 && info.type === 'customFilterChange' || info.type === 'init') {
+      var autoChange = info.type === 'pageChange' || info.type === 'init' || info.type === 'sortChange' || info.type === 'checkBoxChange' || info.type === 'sizeChange';
+      if (info.filters.length >= 1 && info.type === 'customFilterChange' || autoChange) {
         this.innerLoading = true;
         this.loadData && this.loadData(info).then(function (data) {
           _this3.innerLoading = false;
