@@ -17,6 +17,10 @@
       total: {
         type: Number
       },
+      reset: {
+        type: Boolean,
+        default: false
+      },
       loadData: {
         type: Function
       },
@@ -58,6 +62,13 @@
       }
     },
     methods: {
+      resetFilter() {
+        let info = {
+          type: 'customFilterChange',
+          ...this.queryInfo
+        }
+        this.loadData && this.innerLoadData(info)
+      },
       queryChange(type) {
         clearTimeout(this.timeout)
         this.timeout = setTimeout(() => {
@@ -110,6 +121,9 @@
     watch: {
       innerCustomFilters() {
         this.queryChange('customFilterChange')
+      },
+      reset() {
+        this.resetFilter()
       },
       loading(val) {
         this.innerLoading = val

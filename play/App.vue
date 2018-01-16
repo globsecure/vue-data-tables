@@ -22,6 +22,7 @@
     :show-action-bar='false',
     :actions-def='actionsDef',
     :checkbox-filter-def='checkFilterDef',
+    :reset="reset"
     :load-data='loadData',
     :custom-filters='customFilters',
     @load-data-success='loadDataSuccess',
@@ -33,6 +34,7 @@
               | 更多菜单
               i.el-icon-caret-bottom.el-icon--right
             el-dropdown-menu(slot='dropdown')
+              el-dropdown-item(onclick='handleReset') Reset
               el-dropdown-item 黄金糕
               el-dropdown-item 狮子头
               el-dropdown-item 螺蛳粉
@@ -103,6 +105,7 @@
     },
     data() {
       return {
+        reset: false,
         tableData: [],
         tableProps: {
           rowClassName: 'test-class',
@@ -246,6 +249,11 @@
       }
     },
     methods: {
+      handleReset() {
+        this.reset = !this.reset
+        console.log('handleReset', this.reset)
+        return this.reset
+      },
       loadData(queryInfo) {
         return mockServer(queryInfo, 2000)
       },
