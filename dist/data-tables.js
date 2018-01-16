@@ -2276,6 +2276,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     total: {
       type: Number
     },
+    reset: {
+      type: Boolean,
+      default: false
+    },
     loadData: {
       type: Function
     },
@@ -2318,6 +2322,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     }
   },
   methods: {
+    resetFilter: function resetFilter() {
+      var info = __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({
+        type: 'customFilterChange'
+      }, this.queryInfo);
+      this.loadData && this.innerLoadData(info);
+    },
     queryChange: function queryChange(type) {
       var _this2 = this;
 
@@ -2371,6 +2381,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   watch: {
     innerCustomFilters: function innerCustomFilters() {
       this.queryChange('customFilterChange');
+    },
+    reset: function reset() {
+      this.resetFilter();
     },
     loading: function loading(val) {
       this.innerLoading = val;
