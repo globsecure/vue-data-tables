@@ -374,7 +374,7 @@ export default {
           min: filter.min
         })
         let typeVal = typeof filter.vals
-        if ((typeVal === 'string' && (filter.vals.length >= filter.min)) || filter.min === undefined) {
+        if ((typeVal === 'string' && (filter.vals.length >= filter.min) || filter.vals === '-1') || filter.min === undefined) {
           customFilters.push(filterCopy)
         } else if (typeVal === 'object') {
           let valMin = filter.vals.map(val => {
